@@ -9,7 +9,7 @@ token = os.getenv("DISCORD_BOT_TOKEN")
 
 @client.event
 async def on_ready():
-    await client.change_presence(status = discord.Status.idle, activity = discord.Game("EATING HUHMAN BABIES"))
+    await client.change_presence(status = discord.Status.idle, activity = discord.Game("EATING HUMAN BABIES"))
     print("I am online")
     print('starting reminders')
     what_ya_reading.start()
