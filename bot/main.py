@@ -8,7 +8,7 @@ import datetime
 client = commands.Bot(command_prefix="!")
 token = os.getenv("DISCORD_BOT_TOKEN")
 curguild = client.get_guild(546719526922878996)
-print(pytz.timezone('US/Eastern').localize(datetime.datetime.now().hour))
+print(pytz.timezone('US/Eastern').localize(datetime.datetime.now()).hour)
 print(datetime.datetime.now().hour)
 
 @client.event
