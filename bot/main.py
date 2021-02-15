@@ -39,10 +39,10 @@ async def what_ya_reading(curguild):
     await ch.send(f'Filthy {weebs.mention}, what degenerecy are you reading/watching this week?')
 
 @what_ya_reading.before_loop
-async def before_reading(curguild):
+async def before_reading():
     for _ in range(60*60*24):  # loop the hole day
         if datetime.datetime.now().hour - 5 == 7 + 12:  # 24 hour format
-            print('It is time')
+            print('pinging weebs')
             return
         await asyncio.sleep(1) # wait a second before looping again. You can make it more
 
