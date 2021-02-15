@@ -2,59 +2,63 @@ import discord
 from discord.ext import commands, tasks
 import os
 import asyncio
-import pytz
 import datetime
 
 client = commands.Bot(command_prefix="!")
 token = os.getenv("DISCORD_BOT_TOKEN")
-curguild = client.get_guild(546719526922878996)
 
 @client.event
 async def on_ready():
-    await client.change_presence(status = discord.Status.idle, activity = discord.Game("READY TO DEVOUR PUNY HUMANS"))
+    await client.change_presence(status = discord.Status.idle, activity = discord.Game("EATING HUHMAN BABIES"))
     print("I am online")
+    print('starting reminders')
+    what_ya_reading.start()
+    dnd_remind.start()
 
-
-@client.command()
-async def ping(ctx):
-    await ctx.send(f"🏓 Pong with {str(round(client.latency, 2))}")
-
-@client.command(name="whoami")
-async def whoami(ctx):
-    await ctx.send(f"You are {ctx.message.author.name}")
-
+##
 @client.command()
 async def clear(ctx, amount=3) :
     await ctx.channel.purge(limit=amount)
 
-# actual commands
 
-#@tasks.loop(hours=168)
-@tasks.loop(minutes=5)
-async def what_ya_reading(curguild):
-    #w = 774654613894463509
-    w = 702161224036515870
-    ch = client.get_channel(809557994684809257)
-    weebs = discord.utils.get(curguild.roles, id=w)
-    await ch.send(f'Filthy {weebs.mention}, what degenerecy are you reading/watching this week?')
+#reminder commands- REFACTOR soon, class? add create your own reminder?
+
+@tasks.loop(hours=24*7)
+async def what_ya_reading():
+    wid = 774654613894463509
+    ch = client.get_channel(762730040487313488)
+    await ch.send(f'Filthy <@&{wid}>, what degenerecy have you been reading/watching this week?')
 
 @what_ya_reading.before_loop
 async def before_reading():
     for _ in range(60*60*24):  # loop the hole day
-        if datetime.datetime.now().hour - 5 == 7 + 12:  # 24 hour format
+        if datetime.datetime.now().hour - 5 == 11 and datetime.datetime.now().weekday() == 4:  # friday @ 11am
             print('pinging weebs')
             return
         await asyncio.sleep(1) # wait a second before looping again. You can make it more
 
 
-#@tasks.loop(hours=168)
-#async def dnd_reminder(ctx):
-#    party = discord.utils.get(ctx.guild.roles, id=570382098121097226)
-#    await ctx.send(f'Feeble {weebs.mention}, the session start is 7:30PM EST')
+@tasks.loop(hours=24*7)
+async def dnd_remind():
+    wid = 570382098121097226
+    ch = client.get_channel(761387745863925762)
+    await ch.send(f'Feeble <@&{wid}>, session starts at 7:00pm EST.')
+
+@dnd_remind.before_loop
+async def before_dnd():
+    for _ in range(60*60*24):  # loop the hole day
+        if datetime.datetime.now().hour - 5 == 4 + 12 and datetime.datetime.now().weekday() == 2:  # wednesday @ 4pm
+            print('pinging party')
+            return
+        await asyncio.sleep(1) # wait a second before looping again. You can make it more
+
+
+# poll commands
 
 #@client.command(name="poll")
 #async def poll(ctx):
-#    await ctx.send(f"---POLL---\n---{time}---\n{pollname}\n\t:emoji1:{option1}\n\t:emoji2:{option2}")
+#    await ctx.send(f"What is this Poll called?")
+#    polltitle = await client.wait_for('')
 
 #@client.event
 #async def on_message(msg):
