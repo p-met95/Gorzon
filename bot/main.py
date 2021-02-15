@@ -7,8 +7,7 @@ import datetime
 
 client = commands.Bot(command_prefix="!")
 token = os.getenv("DISCORD_BOT_TOKEN")
-curguild = client.get_guild()
-print(curguild)
+curguild = client.get_guild(546719526922878996)
 
 @client.event
 async def on_ready():
