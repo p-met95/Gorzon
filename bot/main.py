@@ -8,8 +8,6 @@ import datetime
 client = commands.Bot(command_prefix="!")
 token = os.getenv("DISCORD_BOT_TOKEN")
 curguild = client.get_guild(546719526922878996)
-print(pytz.timezone('US/Eastern').localize(datetime.datetime.now()))
-print(datetime.datetime.now())
 
 @client.event
 async def on_ready():
@@ -43,7 +41,7 @@ async def what_ya_reading(curguild):
 @what_ya_reading.before_loop
 async def before_reading(curguild):
     for _ in range(60*60*24):  # loop the hole day
-        if pytz.timezone('US/Eastern').localize(datetime.datetime.now()).hour == 19:  # 24 hour format
+        if datetime.datetime.now().hour - 5 == 7 + 12:  # 24 hour format
             print('It is time')
             return
         await asyncio.sleep(1) # wait a second before looping again. You can make it more
