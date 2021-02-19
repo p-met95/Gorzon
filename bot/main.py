@@ -32,9 +32,9 @@ async def what_ya_reading():
 @what_ya_reading.before_loop
 async def before_reading():
     for _ in range(60*60*24):  # loop the hole day
-        if datetime.datetime.now().hour - 5 == 12 and datetime.datetime.now().weekday() == 4:  # friday(4) @ 11am
+        if datetime.datetime.now().hour - 5 == 12 and datetime.datetime.now().weekday() == 4 and datetime.datetime.now().minute == 12:  # friday(4) @ 11am
             print('pinging weebs')
-            retur
+            return
         await asyncio.sleep(1) # wait a second before looping again. You can make it more
 
 
@@ -47,7 +47,7 @@ async def dnd_remind():
 @dnd_remind.before_loop
 async def before_dnd():
     for _ in range(60*60*24):  # loop the hole day
-        if datetime.datetime.now().hour - 5 == 12 and datetime.datetime.now().weekday() == 4:  # wednesday (2) @ 4pm
+        if datetime.datetime.now().hour - 5 == 4 + 12 and datetime.datetime.now().weekday() == 2:  # wednesday (2) @ 4pm
             print('pinging party')
             return
         await asyncio.sleep(1) # wait a second before looping again. You can make it more
