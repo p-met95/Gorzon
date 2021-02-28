@@ -21,6 +21,7 @@ async def clear(ctx, amount=3) :
     await ctx.channel.purge(limit=amount)
 
 
+
 #reminder commands- REFACTOR soon, class? add create your own reminder?
 
 @tasks.loop(hours=24*7)
