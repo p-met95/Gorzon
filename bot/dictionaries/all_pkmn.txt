@@ -404,8 +404,7 @@ Sableye
 Bronzong
 Whirlipede
 Sylveon
-Type:
-Null
+Type: Null
 Morgrem
 Meowth
 Girafarig
@@ -418,8 +417,7 @@ Grimmsnarl
 Persian
 Pineco
 Aron
-Mime
-Jr.
+Mime Jr.
 Cottonee
 Dedenne
 Minior
@@ -455,8 +453,7 @@ Gible
 Basculin
 Goodra
 Mimikyu
-Mr.
-Rime
+Mr. Rime
 Growlithe
 Snubbull
 Electrike
@@ -511,8 +508,7 @@ Roselia
 Hippowdon
 Dwebble
 Avalugg
-Tapu
-Koko
+Tapu Koko
 Frosmoth
 Alakazam
 Teddiursa
@@ -520,8 +516,7 @@ Gulpin
 Skorupi
 Crustle
 Noibat
-Tapu
-Lele
+Tapu Lele
 Stonjourner
 Machop
 Ursaring
@@ -529,8 +524,7 @@ Swalot
 Drapion
 Scraggy
 Noivern
-Tapu
-Bulu
+Tapu Bulu
 Eiscue
 Machoke
 Slugma
@@ -538,8 +532,7 @@ Carvanha
 Croagunk
 Scrafty
 Xerneas
-Tapu
-Fini
+Tapu Fini
 Indeedee
 Machamp
 Magcargo
@@ -824,8 +817,7 @@ Cubchoo
 Starmie
 Shelgon
 Beartic
-Mr.
-Mime
+Mr. Mime
 Salamence
 Cryogonal
 Scyther

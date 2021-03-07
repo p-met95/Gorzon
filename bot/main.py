@@ -11,6 +11,20 @@ token = os.getenv("DISCORD_BOT_TOKEN")
 
 poke_client = pp.V2Client()
 
+special_cases = {
+    "Type: Null": "type-null",
+    "Mime Jr.": "mime-jr",
+    "Mr. Rime": "mr-rime",
+    "Mr. Mime": "mr-mime",
+    "Tapu Koko": "tapu-koko",
+    "Tapu Lele": "tapu-lele",
+    "Tapu Bulu": "tapu-bulu",
+    "Tapu Fini": "tapu-fini",
+    "Farfetch'd": "Farfetchd",
+    "Sirfetch'd": "Sirfetchd",
+    "Porygon-Z": "Porygon-z"}
+
+
 
 @client.event
 async def on_ready():
@@ -20,11 +34,6 @@ async def on_ready():
     # what_ya_reading.start()
     # dnd_remind.start()
 
-
-##
-@client.command()
-async def clear(ctx, amount=3):
-    await ctx.channel.purge(limit=amount)
 
 
 # reminder commands- REFACTOR soon, class? add create your own reminder?
@@ -62,37 +71,106 @@ async def clear(ctx, amount=3):
 ###
 
 @client.command()
-async def weak(ctx, pokemon):
+async def weak(ctx, *, pokemon):
+    """Replies with the weaknesses of the pokemon you ask for. Does not account for ability effects: e.g. sap sipper (attempts to spell check)"""
     sug = suggester(pokemon, 'all_pkmn')
     if sug == True:
-        t1, t2 = g_types(pokemon, poke_client)
-        t_name, table = weak_table(t1, t2)
-        await ctx.channel.send(f"```{t_name}\n{table.dumps()}```")
+        if pokemon in special_cases.keys():
+            altn = special_cases[pokemon]
+            t1, t2 = g_types(altn, poke_client)
+            t_name, table = weak_table(t1, t2)
+            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
+        else:
+            t1, t2 = g_types(pokemon, poke_client)
+            t_name, table = weak_table(t1, t2)
+            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) == 1:
         pokemon = sug[0]
-        t1, t2 = g_types(pokemon, poke_client)
-        t_name, table = weak_table(t1, t2)
-        await ctx.channel.send(f"```{t_name}\n{table.dumps()}```")
+        if pokemon in special_cases.keys():
+            altn = special_cases[pokemon]
+            t1, t2 = g_types(altn, poke_client)
+            t_name, table = weak_table(t1, t2)
+            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
+        else:
+            t1, t2 = g_types(pokemon, poke_client)
+            t_name, table = weak_table(t1, t2)
+            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) > 1:
-        await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?")
+        await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the Pokemon you want.")
     else:
         await ctx.channel.send("Sorry, I couldn't find that.")
 
 
 @client.command()
-async def res(ctx, pokemon):
+async def res(ctx, *, pokemon):
+    """Replies with the resistances of the pokemon you ask for. Does not account for ability effects: e.g. sap sipper (attempts to spell check)"""
     sug = suggester(pokemon, 'all_pkmn')
     if sug == True:
-        t1, t2 = g_types(pokemon, poke_client)
-        t_name, table = res(t1, t2)
-        await ctx.channel.send(f"```{t_name}\n{table.dumps()}```")
+        if pokemon in special_cases.keys():
+            altn = special_cases[pokemon]
+            t1, t2 = g_types(altn, poke_client)
+            t_name, table = res_table(t1, t2)
+            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
+        else:
+            t1, t2 = g_types(pokemon, poke_client)
+            t_name, table = res_table(t1, t2)
+            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) == 1:
         pokemon = sug[0]
-        t1, t2 = g_types(pokemon, poke_client)
-        t_name, table = res(t1, t2)
-        await ctx.channel.send(f"```{t_name}\n{table.dumps()}```")
+        if pokemon in special_cases.keys():
+            altn = special_cases[pokemon]
+            t1, t2 = g_types(altn, poke_client)
+            t_name, table = res_table(t1, t2)
+            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
+        else:
+            t1, t2 = g_types(pokemon, poke_client)
+            t_name, table = res_table(t1, t2)
+            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) > 1:
-        await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?")
+        await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the Pokemon you want.")
+    else:
+        await ctx.channel.send("Sorry, I couldn't find that.")
+
+
+@client.command()
+async def ability(ctx, *, p_ability):
+    """Replies with the ability effect you ask for (attempts to spell check)"""
+    sug = suggester(p_ability, 'abilities')
+    if sug == True:
+        alt = p_ability.lower()
+        alt = alt.replace(' ', '-')
+        abil = g_ability(alt, poke_client)
+        await ctx.channel.send(f'**__{p_ability}__**:\n{abil}')
+    elif len(sug) == 1:
+        p_ability = sug[0]
+        alt = p_ability.lower()
+        alt = alt.replace(' ', '-')
+        abil = g_ability(alt, poke_client)
+        await ctx.channel.send(f'**__{p_ability}__**:\n{abil}')
+    elif len(sug) > 1:
+        await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the ability you want")
+    else:
+        await ctx.channel.send("Sorry, I couldn't find that.")
+
+@client.command()
+async def move(ctx, *, p_move):
+    """Replies with the move power, accuracy, type, and effect you ask for (attempts to spell check)"""
+    sug = suggester(p_move, 'moves')
+    if sug == True:
+        alt = p_move.replace('-', ' ')
+        alt = alt.lower()
+        alt = alt.replace(' ', '-')
+        mov = g_move(alt, poke_client)
+        await ctx.channel.send(f'**__{p_move}__**:\n{mov}')
+    elif len(sug) == 1:
+        p_move = sug[0]
+        alt = p_move.replace('-', ' ')
+        alt = alt.lower()
+        alt = alt.replace(' ', '-')
+        mov = g_move(alt, poke_client)
+        await ctx.channel.send(f'**__{p_move}__**:\n{mov}')
+    elif len(sug) > 1:
+        await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the ability you want")
     else:
         await ctx.channel.send("Sorry, I couldn't find that.")
 
@@ -109,7 +187,4 @@ async def res(ctx, pokemon):
 #        pollcount(msg)
 
 client.run(token)
-
-
-
 

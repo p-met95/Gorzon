@@ -18,14 +18,14 @@ def weak_table(t1, t2=None):
         weak = UnicodeTableWriter()
         t_name = f"{t1} Type Weaknesses"
         weak.headers = ["Type", "Effectiveness"]
-        weak.value_matrix = [[t, f'\t\t{tc[t1][t]}.0x'] for t in w_type]
+        weak.value_matrix = [[t, f'\t\t {tc[t1][t]}x'] for t in w_type]
 
     else:
         w_type = tc.loc[tc[t1] * tc[t2] > 1].index
         weak = UnicodeTableWriter()
         t_name = f"{t1}/{t2} Type Weaknesses"
         weak.headers = ["Type", "Effectiveness"]
-        weak.value_matrix = [[t, f'\t\t{(tc[t1] * tc[t2])[t]}x'] for t in w_type]
+        weak.value_matrix = [[t, f'\t\t {(tc[t1] * tc[t2])[t]}x'] for t in w_type]
 
     return t_name, weak
 
@@ -37,7 +37,7 @@ def res_table(t1, t2=None):
         res = UnicodeTableWriter()
         t_name = f"{t1} Type Resistances"
         res.headers = ["Type", "Effectiveness"]
-        res.value_matrix = [[t, f'\t\t{tc[t1][t]}.0x'] for t in r_type]
+        res.value_matrix = [[t, f'\t\t {tc[t1][t]}x'] for t in r_type]
 
     else:
         r_type = tc.loc[tc[t1] * tc[t2] < 1].index
@@ -45,7 +45,7 @@ def res_table(t1, t2=None):
         res = UnicodeTableWriter()
         t_name = f"{t1}/{t2} Type Resistances"
         res.headers = ["Type", "Effectiveness"]
-        res.value_matrix = [[t, f'\t\t{(tc[t1] * tc[t2])[t]}x'] for t in r_type]
+        res.value_matrix = [[t, f'\t\t {(tc[t1] * tc[t2])[t]}x'] for t in r_type]
 
     return t_name, res
 
@@ -81,6 +81,9 @@ def g_move(move, cli):
     acc = mv.accuracy
     typ = mv.type.name
     eff = mv.effect_entries[0].short_effect
+    if '$effect_chance' in eff:
+        eff_c = mv.effect_chance
+        eff.replace('$effect_chance', str(eff_c))
     format_out = f'Power: **{pwr}**, Accuracy: **{acc}**, Type: **{typ.title()}**.\n{eff}'
     return format_out
 
