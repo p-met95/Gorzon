@@ -3,8 +3,8 @@ from discord.ext import commands, tasks
 import os
 import pokepy as pp
 from pokedex import *
-import asyncio
-import datetime
+# import datetime
+# import asyncio
 
 client = commands.Bot(command_prefix="!")
 token = os.getenv("DISCORD_BOT_TOKEN")
@@ -23,7 +23,6 @@ special_cases = {
     "Farfetch'd": "Farfetchd",
     "Sirfetch'd": "Sirfetchd",
     "Porygon-Z": "Porygon-z"}
-
 
 
 @client.event
