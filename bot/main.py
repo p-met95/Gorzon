@@ -29,7 +29,6 @@ special_cases = {
 async def on_ready():
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("EATING HUMAN BABIES"))
     print("I am online")
-    print(os.getcwd())
     # print('starting reminders')
     # what_ya_reading.start()
     # dnd_remind.start()
@@ -79,10 +78,12 @@ async def weak(ctx, *, pokemon):
             altn = special_cases[pokemon]
             t1, t2 = g_types(altn, poke_client)
             t_name, table = weak_table(t1, t2)
+            print(table.dumps())
             await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
         else:
             t1, t2 = g_types(pokemon, poke_client)
             t_name, table = weak_table(t1, t2)
+            print(table.dumps())
             await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) == 1:
         pokemon = sug[0]
@@ -90,10 +91,12 @@ async def weak(ctx, *, pokemon):
             altn = special_cases[pokemon]
             t1, t2 = g_types(altn, poke_client)
             t_name, table = weak_table(t1, t2)
+            print(table.dumps())
             await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
         else:
             t1, t2 = g_types(pokemon, poke_client)
             t_name, table = weak_table(t1, t2)
+            print(table.dumps())
             await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) > 1:
         await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the Pokemon you want.")
@@ -110,10 +113,12 @@ async def res(ctx, *, pokemon):
             altn = special_cases[pokemon]
             t1, t2 = g_types(altn, poke_client)
             t_name, table = res_table(t1, t2)
+            print(table.dumps())
             await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
         else:
             t1, t2 = g_types(pokemon, poke_client)
             t_name, table = res_table(t1, t2)
+            print(table.dumps())
             await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) == 1:
         pokemon = sug[0]
@@ -121,10 +126,12 @@ async def res(ctx, *, pokemon):
             altn = special_cases[pokemon]
             t1, t2 = g_types(altn, poke_client)
             t_name, table = res_table(t1, t2)
+            print(table.dumps())
             await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
         else:
             t1, t2 = g_types(pokemon, poke_client)
             t_name, table = res_table(t1, t2)
+            print(table.dumps())
             await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) > 1:
         await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the Pokemon you want.")
@@ -140,12 +147,14 @@ async def ability(ctx, *, p_ability):
         alt = p_ability.lower()
         alt = alt.replace(' ', '-')
         abil = g_ability(alt, poke_client)
+        print(abil)
         await ctx.channel.send(f'**__{p_ability}__**:\n{abil}')
     elif len(sug) == 1:
         p_ability = sug[0]
         alt = p_ability.lower()
         alt = alt.replace(' ', '-')
         abil = g_ability(alt, poke_client)
+        print(abil)
         await ctx.channel.send(f'**__{p_ability}__**:\n{abil}')
     elif len(sug) > 1:
         await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the ability you want")
@@ -161,6 +170,7 @@ async def move(ctx, *, p_move):
         alt = alt.lower()
         alt = alt.replace(' ', '-')
         mov = g_move(alt, poke_client)
+        print(mov)
         await ctx.channel.send(f'**__{p_move}__**:\n{mov}')
     elif len(sug) == 1:
         p_move = sug[0]
@@ -168,6 +178,7 @@ async def move(ctx, *, p_move):
         alt = alt.lower()
         alt = alt.replace(' ', '-')
         mov = g_move(alt, poke_client)
+        print(mov)
         await ctx.channel.send(f'**__{p_move}__**:\n{mov}')
     elif len(sug) > 1:
         await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the ability you want")
