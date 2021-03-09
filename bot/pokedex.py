@@ -9,7 +9,7 @@ import pandas as pd
 from pytablewriter import UnicodeTableWriter
 import enchant
 
-tc = pd.read_csv('bot/dictionaries/typechart.csv', index_col=0)
+tc = pd.read_csv('./dictionaries/typechart.csv', index_col=0)
 
 
 def weak_table(t1, t2=None):
@@ -51,7 +51,7 @@ def res_table(t1, t2=None):
 
 
 def suggester(word, dct):
-    dictio = enchant.request_pwl_dict(f"bot/dictionaries/{dct}.txt")
+    dictio = enchant.request_pwl_dict(f"./dictionaries/{dct}.txt")
     if dictio.check(word):
         return True
     else:

@@ -29,6 +29,7 @@ special_cases = {
 async def on_ready():
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("EATING HUMAN BABIES"))
     print("I am online")
+    print(os.getcwd())
     # print('starting reminders')
     # what_ya_reading.start()
     # dnd_remind.start()
