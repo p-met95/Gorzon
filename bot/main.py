@@ -114,12 +114,12 @@ async def res(ctx, *, pokemon):
             t1, t2 = g_types(altn, poke_client)
             t_name, table = res_table(t1, t2)
             print(table.dumps())
-            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
+            await ctx.channel.send(f"found resistances for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
         else:
             t1, t2 = g_types(pokemon, poke_client)
             t_name, table = res_table(t1, t2)
             print(table.dumps())
-            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
+            await ctx.channel.send(f"found resistances for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) == 1:
         pokemon = sug[0]
         if pokemon in special_cases.keys():
@@ -127,12 +127,12 @@ async def res(ctx, *, pokemon):
             t1, t2 = g_types(altn, poke_client)
             t_name, table = res_table(t1, t2)
             print(table.dumps())
-            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
+            await ctx.channel.send(f"found resistances for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
         else:
             t1, t2 = g_types(pokemon, poke_client)
             t_name, table = res_table(t1, t2)
             print(table.dumps())
-            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
+            await ctx.channel.send(f"found resistances for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) > 1:
         await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the Pokemon you want.")
     else:
