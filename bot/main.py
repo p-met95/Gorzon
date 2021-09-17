@@ -197,9 +197,7 @@ async def move(ctx, *, p_move):
 # poll commands
 
 @client.command(name='createpoll', aliases=['mkpoll'])
-async def create_poll(ctx, question, *options):
-
-    polltime = 5
+async def create_poll(ctx, question, polltime=30, *options):
 
     """
     Create a poll, format as below:
@@ -245,7 +243,7 @@ async def create_poll(ctx, question, *options):
     else:
         winner = ws[0]
 
-    await ctx.channel.send(f'Poll finished.\n "{question}" \n\t {winner} won!')
+    await ctx.channel.send(f'Poll: "{question}" finished! \n\t -{winner} won!')
 
 
 
