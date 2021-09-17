@@ -232,7 +232,7 @@ async def create_poll(ctx, question, *options):
     wids = [i for i, j in enumerate(allrxn) if j == m]
 
     ws = [options[i] for i in wids]
-    if ws > 1:
+    if len(ws) > 1:
         winner = '\nand\n'.join(ws)
     else:
         winner = ws[0]
