@@ -4,7 +4,7 @@ import os
 import pokepy as pp
 from pokedex import *
 import datetime
-# import asyncio
+import asyncio
 
 client = commands.Bot(command_prefix="!")
 token = os.getenv("DISCORD_BOT_TOKEN")
@@ -47,7 +47,7 @@ async def on_ready():
 
 # @what_ya_reading.before_loop
 # async def before_reading():
-#    for _ in range(60*60*24):  # loop the hole day
+#    for _ in range(60*60*24):  # loop the whole day
 #        if datetime.datetime.now().hour - 5 == 4 + 12 and datetime.datetime.now().weekday() == 4:  # friday(4) @ 11am
 #            print('pinging weebs')
 #            return
@@ -62,7 +62,7 @@ async def on_ready():
 
 # @dnd_remind.before_loop
 # async def before_dnd():
-#    for _ in range(60*60*24):  # loop the hole day
+#    for _ in range(60*60*24):  # loop the whole day
 #        if datetime.datetime.now().hour - 5 == 4 + 12 and datetime.datetime.now().weekday() == 2:  # wednesday (2) @ 4pm
 #            print('pinging party')
 #            return
@@ -195,12 +195,17 @@ async def move(ctx, *, p_move):
         await ctx.channel.send("Sorry, I couldn't find that.")
 
 # poll commands
+
 @client.command(name='createpoll', aliases=['mkpoll'])
 async def create_poll(ctx, question, *options):
+
+    polltime = 5
+
     """
     Create a poll, format as below:
     !mkpoll "This is the question?" option1 option2 option3
     """
+
     if len(options) > 10:
         await ctx.channel.send('You can only have a max of 10 options.')
 
@@ -216,11 +221,25 @@ async def create_poll(ctx, question, *options):
         embed.add_field(name=name, value=value, inline=inline)
 
     message = await ctx.channel.send(embed=embed)
+    cache_msg = discord.utils.get(client.cached_messages, id=message.id)
 
     for emoji in numbers[:len(options)]:
         await message.add_reaction(emoji)
 
+    await asyncio.sleep(polltime)
+    allrxn = cache_msg.reactions
+    print(allrxn)
 
+@client.event
+async def on_raw_reaction_add(payload):
+    if payload.channel_id == 614467771866021944:
+        if payload.emoji.name == "🔁":
+            channel = client.get_channel(614467771866021944)
+            message = await channel.fetch_message(payload.message_id)
+            reaction = discord.utils.get(message.reactions, emoji=payload.emoji.name)
+            if reaction and reaction.count > 4:
+                await message.delete()
+    print(cache_msg.reactions)
 # @client.command(name="poll")
 # async def poll(ctx):
 #    await ctx.send(f"What is this Poll called?")
