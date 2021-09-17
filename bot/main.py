@@ -74,6 +74,8 @@ async def on_ready():
 @client.command()
 async def sfws(ctx):
     await ctx.channel.send(file=discord.File('/app/bot/Images/sfwsasuke.png'))
+    await ctx.channel.send(file=discord.File('/app/bot/Images/sfwsasuke.png'))
+    await ctx.channel.send(file=discord.File('/app/bot/Images/sfwsasuke.png'))
 
 @client.command()
 async def weak(ctx, *, pokemon):
