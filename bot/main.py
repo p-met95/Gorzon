@@ -231,7 +231,9 @@ async def create_poll(ctx, question, *options):
     print(cache_msg1.reactions)
     print(cache_msg1.reactions[0].count)
 
-    #allrxn = [react.count for react in cache_msg1.reactions]
+    allrxn = [react.count for react in cache_msg1.reactions]
+
+    print(allrxn)
 
     #m = max(allrxn)
 
