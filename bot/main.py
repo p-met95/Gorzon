@@ -228,18 +228,10 @@ async def create_poll(ctx, question, *options):
 
     await asyncio.sleep(polltime)
     allrxn = cache_msg.reactions
-    print(allrxn)
+    for i in allrxn:
+        print(i)
 
-@client.event
-async def on_raw_reaction_add(payload):
-    if payload.channel_id == 614467771866021944:
-        if payload.emoji.name == "🔁":
-            channel = client.get_channel(614467771866021944)
-            message = await channel.fetch_message(payload.message_id)
-            reaction = discord.utils.get(message.reactions, emoji=payload.emoji.name)
-            if reaction and reaction.count > 4:
-                await message.delete()
-    print(cache_msg.reactions)
+
 # @client.command(name="poll")
 # async def poll(ctx):
 #    await ctx.send(f"What is this Poll called?")
