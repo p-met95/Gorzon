@@ -222,7 +222,7 @@ async def create_poll(ctx, question, *options):
 
     message = await ctx.channel.send(embed=embed)
     #cache_msg = discord.utils.get(client.cached_messages, id=message.id)
-    cache_msg = await client.fetch_message(message.id)
+    cache_msg = await ctx.channel.fetch_message(message.id)
 
     for emoji in numbers[:len(options)]:
         await message.add_reaction(emoji)
