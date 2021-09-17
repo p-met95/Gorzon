@@ -235,7 +235,7 @@ async def create_poll(ctx, question, polltime: typing.Optional[int] = 10, *optio
     for react in cache_msg.reactions:
         allrxn.append(react.count)
 
-    #allrxn = [react.count for react in cache_msg.reactions]
+    allrxn = allrxn[:len(options)]
 
     m = max(allrxn)
 
