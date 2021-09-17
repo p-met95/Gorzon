@@ -221,19 +221,22 @@ async def create_poll(ctx, question, *options):
         embed.add_field(name=name, value=value, inline=inline)
 
     message = await ctx.channel.send(embed=embed)
-    cache_msg1 = discord.utils.get(client.cached_messages, id=message.id)
-    cache_msg2 = await ctx.channel.fetch_message(message.id)
+    cache_msg = discord.utils.get(client.cached_messages, id=message.id)
 
     for emoji in numbers[:len(options)]:
         await message.add_reaction(emoji)
 
     await asyncio.sleep(polltime)
-    print(cache_msg1.reactions)
-    print(cache_msg1.reactions[0].count)
 
-    allrxn = [react.count for react in cache_msg1.reactions]
+    print(cache_msg.reactions)
+    print(cache_msg.reactions[0].count)
 
-    print(allrxn)
+    for react in cache_msg.reactions:
+        print(react.count)
+
+    #allrxn = [react.count for react in cache_msg1.reactions]
+
+    #print(allrxn)
 
     #m = max(allrxn)
 
