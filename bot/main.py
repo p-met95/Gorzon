@@ -197,12 +197,15 @@ async def move(ctx, *, p_move):
 # poll commands
 
 @client.command(name='createpoll', aliases=['mkpoll'])
-async def create_poll(ctx, question, polltime=30, *options):
+async def create_poll(ctx, question, *options):
 
     """
     Create a poll, format as below:
     !mkpoll "This is the question?" option1 option2 option3
+    30 minute poll time
     """
+
+    polltime = 30
 
     if len(options) > 10:
         await ctx.channel.send('You can only have a max of 10 options.')
