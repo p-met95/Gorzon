@@ -202,8 +202,10 @@ async def create_poll(ctx, question, polltime: typing.Optional[int] = 10, *optio
 
     """
     Create a poll, format as below:
-    !mkpoll "This is the question?" option1 option2 option3
-    default 10 minute poll time can be offset by adding in time (in minutes) after the question
+    !mkpoll "This is the question?" 5 option1 "option two" option3
+        - Default 10 minute poll time can be offset by adding
+          in time (in minutes) after the question.
+        - Options will be separated by space unless in quotes
     """
 
     if len(options) > 10:
