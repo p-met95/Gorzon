@@ -5,6 +5,7 @@ import pokepy as pp
 from pokedex import *
 import datetime
 import asyncio
+import typing
 
 client = commands.Bot(command_prefix="!")
 token = os.getenv("DISCORD_BOT_TOKEN")
@@ -197,15 +198,13 @@ async def move(ctx, *, p_move):
 # poll commands
 
 @client.command(name='createpoll', aliases=['mkpoll'])
-async def create_poll(ctx, question, *options):
+async def create_poll(ctx, question, polltime: typing.Optional[int] = 10, *options):
 
     """
     Create a poll, format as below:
     !mkpoll "This is the question?" option1 option2 option3
-    30 minute poll time
+    default 10 minute poll time can be offset by adding in time (in minutes) after the question
     """
-
-    polltime = 30
 
     if len(options) > 10:
         await ctx.channel.send('You can only have a max of 10 options.')
@@ -227,7 +226,7 @@ async def create_poll(ctx, question, *options):
     for emoji in numbers[:len(options)]:
         await message.add_reaction(emoji)
 
-    await asyncio.sleep(polltime)
+    await asyncio.sleep(polltime*60)
 
     allrxn = []
 
@@ -242,25 +241,12 @@ async def create_poll(ctx, question, *options):
 
     ws = [options[i] for i in wids]
     if len(ws) > 1:
-        winner = '\nand\n'.join(ws)
+        winner = '\n\tand\n\t-'.join(ws)
     else:
         winner = ws[0]
 
-    await ctx.channel.send(f'Poll: "{question}" finished! \n\t -{winner} won!')
+    await ctx.channel.send(f'Poll: "{question}" finished. \n\t -{winner} won!')
 
-
-
-# @client.command(name="poll")
-# async def poll(ctx):
-#    await ctx.send(f"What is this Poll called?")
-#    polltitle = await client.wait_for('')
-
-
-
-# @client.event
-# async def on_message(msg):
-#    if 'Gorzon' in msg.author.diplay_name and '---POLL---' in msg.content:
-#        pollcount(msg)
 
 client.run(token)
 
