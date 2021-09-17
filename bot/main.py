@@ -3,7 +3,7 @@ from discord.ext import commands, tasks
 import os
 import pokepy as pp
 from pokedex import *
-# import datetime
+import datetime
 # import asyncio
 
 client = commands.Bot(command_prefix="!")
@@ -24,6 +24,8 @@ special_cases = {
     "Sirfetch'd": "Sirfetchd",
     "Porygon-Z": "Porygon-z"}
 
+numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣",
+		   "6⃣", "7⃣", "8⃣", "9⃣", "🔟")
 
 @client.event
 async def on_ready():
@@ -68,6 +70,7 @@ async def on_ready():
 
 
 ###
+
 
 @client.command()
 async def weak(ctx, *, pokemon):
@@ -186,6 +189,30 @@ async def move(ctx, *, p_move):
         await ctx.channel.send("Sorry, I couldn't find that.")
 
 # poll commands
+@client.command(name='createpoll', aliases=['mkpoll'])
+async def create_poll(ctx, question, *options):
+    """
+    Create a poll, format as below:
+    !mkpoll "This is the question?" option1 option2 option3
+    """
+    if len(options) > 10:
+        await ctx.channel.send('You can only have a max of 10 options.')
+
+    embed = discord.Embed(title="Poll",
+                  description=question,
+                  colour=ctx.author.colour,
+                  timestamp=datetime.utc.now())
+
+    fields = [('Options', '\n'.join([f'{numbers[idx]} {option}' for idx, option in enumerate(options)]), False),
+              ('Instructions:', 'React to cast a vote!', False)]
+
+    for name, value, inline in fields:
+        embed.add_field(name=name, value=value, inline=inline)
+
+    message = await ctx.channel.send(embed=embed)
+
+    for emoji in numbers[:len(options)]:
+        await message.add_reaction(emoji)
 
 # @client.command(name="poll")
 # async def poll(ctx):
