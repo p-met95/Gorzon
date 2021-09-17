@@ -229,10 +229,9 @@ async def create_poll(ctx, question, *options):
 
     await asyncio.sleep(polltime)
     print(cache_msg1.reactions)
-    print(cache_msg2.reactions)
     print(cache_msg1.reactions[0].count)
 
-    allrxn = [react.count for react in cache_msg.reactions]
+    #allrxn = [react.count for react in cache_msg1.reactions]
 
     #m = max(allrxn)
 
