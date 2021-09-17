@@ -201,7 +201,7 @@ async def create_poll(ctx, question, *options):
     embed = discord.Embed(title="Poll",
                   description=question,
                   colour=ctx.author.colour,
-                  timestamp=datetime.utc.now())
+                  timestamp=datetime.datetime.utcnow())
 
     fields = [('Options', '\n'.join([f'{numbers[idx]} {option}' for idx, option in enumerate(options)]), False),
               ('Instructions:', 'React to cast a vote!', False)]
@@ -214,10 +214,13 @@ async def create_poll(ctx, question, *options):
     for emoji in numbers[:len(options)]:
         await message.add_reaction(emoji)
 
+
 # @client.command(name="poll")
 # async def poll(ctx):
 #    await ctx.send(f"What is this Poll called?")
 #    polltitle = await client.wait_for('')
+
+
 
 # @client.event
 # async def on_message(msg):
