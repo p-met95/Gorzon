@@ -199,7 +199,7 @@ async def move(ctx, *, p_move):
 @client.command(name='createpoll', aliases=['mkpoll'])
 async def create_poll(ctx, question, *options):
 
-    polltime = 20
+    polltime = 5
 
     """
     Create a poll, format as below:
@@ -227,8 +227,11 @@ async def create_poll(ctx, question, *options):
         await message.add_reaction(emoji)
 
     await asyncio.sleep(polltime)
-    allrxn = [react.count for react in cache_msg.reactions]
+
+    allrxn = [react.count for react in message.reactions]
+
     m = max(allrxn)
+
     wids = [i for i, j in enumerate(allrxn) if j == m]
 
     ws = [options[i] for i in wids]
