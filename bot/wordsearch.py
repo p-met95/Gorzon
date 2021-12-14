@@ -173,13 +173,3 @@ class Grid:
         return '\n'.join([''.join(['{:3}'.format(item) for item in row]) for row in self.grid])
 
 
-ws = Grid(5, 15)
-
-try:
-    ws.populate()
-    ws.prettyprint()
-    ws.listw()
-
-except StopIteration as e:
-    print(e)
-
