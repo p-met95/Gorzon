@@ -264,21 +264,21 @@ async def wordsearch(ctx, size, num_words):
     """
     if type(size) != int or type(num_words) != int:
         msg = 'size and num_words parameters must be numbers'
-        ctx.channel.send(msg)
+        await ctx.channel.send(msg)
     elif size > 25:
         msg = "Unfortunately that's too big for me to send as a message."
-        ctx.channel.send(msg)
+        await ctx.channel.send(msg)
     else:
         try:
             ws.populate()
             body = ws.prettyprint()
             wordlist = ws.listw()
 
-            ctx.channel.send(f"\'\'\'\n{body}\n\'\'\'")
-            ctx.channel.send(wordlist)
+            await ctx.channel.send(f"\'\'\'\n{body}\n\'\'\'")
+            await ctx.channel.send(wordlist)
 
         except StopIteration as e:
-            ctx.channel.send(e)
+            await ctx.channel.send(e)
 
 
 client.run(token)
