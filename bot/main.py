@@ -264,8 +264,8 @@ async def wordsearch(ctx, size, num_words):
     """
 
     try:
-        int(size)
-        int(num_words)
+        size = int(size)
+        num_words = int(num_words)
 
     except TypeError:
         msg = 'size and num_words parameters must be numbers'
