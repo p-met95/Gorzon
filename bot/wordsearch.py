@@ -49,8 +49,7 @@ class Grid:
         self.words = [Wordgen(dim) for i in range(numw)]
 
     def listw(self):
-        for i in self.words:
-            return '\n'.join(i.word)
+        return '\n'.join([i.word for i in self.words])
 
     def populate(self):
 
@@ -66,10 +65,11 @@ class Grid:
 
             for iteration in range(iters):
 
+                randi = 0
+
                 while True:
 
-
-                    cur_bc = copy.deepcopy(bad_coord)
+                    randi += 1
 
                     # pick random direction to rotate word
                     direction = random.choice(['u', 'd', 'l', 'r', 'ul', 'ur', 'dl', 'dr'])
@@ -101,15 +101,14 @@ class Grid:
                     x = random.randint(lb, rb)
                     y = random.randint(ub, db)
 
-                    attempt = [x, y, direction]
-
-                    if len(cur_bc) == len(bad_coord):
-                        raise StopIteration(cmsg)
+                    attempt = f'{x}, {y}, {direction}'
 
                     # checks if it's already tried the coordinate combo and if it has make a new one
                     if attempt not in bad_coord:
                         break
 
+                    if iteration == randi - 1:
+                        raise StopIteration(cmsg)
 
                 # grid[y][x]
                 letters = list(word.word)
@@ -165,11 +164,15 @@ class Grid:
                 else:
                     print(f'{word.word} iteration {iteration + 1} failed, trying again.')
                     self.grid = copy.deepcopy(self.rollback_g)
-                    bad_coord.append([x, y, direction])
+                    bad_coord.append(f'{x}, {y}, {direction}')
+
+
+
 
             self.allcoords[word.word] = wcoords
 
     def prettyprint(self):
         return '\n'.join([''.join(['{:3}'.format(item) for item in row]) for row in self.grid])
+
 
 
