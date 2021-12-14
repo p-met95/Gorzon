@@ -1,7 +1,6 @@
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 import os
-import pokepy as pp
 from wordsearch import *
 from pokedex import *
 import datetime
