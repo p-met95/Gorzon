@@ -278,7 +278,7 @@ async def wordsearch(ctx, size, num_words):
     else:
 
         try:
-            ws = wordsearch.Grid(size, num_words)
+            ws = Grid(size, num_words)
             ws.populate()
             body = ws.prettyprint()
             wordlist = ws.listw()

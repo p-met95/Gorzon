@@ -40,6 +40,7 @@ class Grid:
 
     def __init__(self, dim, numw):
 
+        self.allcoords = {}
         self.dim = dim
         upalph = list(string.ascii_uppercase)
         randlet = [random.choice(upalph) for cell in range(dim * dim)]
@@ -52,8 +53,6 @@ class Grid:
         return '\n'.join([i.word for i in self.words])
 
     def populate(self):
-
-        self.allcoords = {}
 
         cmsg = 'Unable to converge, please try again with less words or a larger grid.'
 
@@ -166,13 +165,7 @@ class Grid:
                     self.grid = copy.deepcopy(self.rollback_g)
                     bad_coord.append(f'{x}, {y}, {direction}')
 
-
-
-
             self.allcoords[word.word] = wcoords
 
     def prettyprint(self):
         return '\n'.join([''.join(['{:3}'.format(item) for item in row]) for row in self.grid])
-
-
-
