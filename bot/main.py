@@ -262,14 +262,23 @@ async def wordsearch(ctx, size, num_words):
     Replies with a randomly generated wordsearch and list of words
     `!wordsearch 10 15` creates a wordsearch 10x10 with 15 words inside.
     """
-    if type(size) != int or type(num_words) != int:
+
+    try:
+        int(size)
+        int(num_words)
+
+    except TypeError:
         msg = 'size and num_words parameters must be numbers'
         await ctx.channel.send(msg)
-    elif size > 25:
+
+    if size > 25:
         msg = "Unfortunately that's too big for me to send as a message."
         await ctx.channel.send(msg)
+
     else:
+
         try:
+            ws = wordsearch.Grid(size, num_words)
             ws.populate()
             body = ws.prettyprint()
             wordlist = ws.listw()
