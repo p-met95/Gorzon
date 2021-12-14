@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands, tasks
 import os
 import pokepy as pp
+from wordsearch import *
 from pokedex import *
 import datetime
 import asyncio
@@ -26,7 +27,8 @@ special_cases = {
     "Porygon-Z": "Porygon-z"}
 
 numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣",
-		   "6⃣", "7⃣", "8⃣", "9⃣", "🔟")
+           "6⃣", "7⃣", "8⃣", "9⃣", "🔟")
+
 
 @client.event
 async def on_ready():
@@ -35,7 +37,6 @@ async def on_ready():
     # print('starting reminders')
     # what_ya_reading.start()
     # dnd_remind.start()
-
 
 
 # reminder commands- REFACTOR soon, class? add create your own reminder?
@@ -79,6 +80,7 @@ async def sfws(ctx):
     await ctx.channel.send(file=discord.File('/app/bot/Images/sfwsasuke.png'))
     await ctx.channel.send(file=discord.File('/app/bot/Images/sfwsasuke.png'))
 
+
 @client.command()
 async def weak(ctx, *, pokemon):
     """Replies with the weaknesses of the pokemon you ask for. Does not account for ability effects: e.g. sap sipper (attempts to spell check)"""
@@ -109,7 +111,8 @@ async def weak(ctx, *, pokemon):
             print(table.dumps())
             await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) > 1:
-        await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the Pokemon you want.")
+        await ctx.channel.send(
+            "Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the Pokemon you want.")
     else:
         await ctx.channel.send("Sorry, I couldn't find that.")
 
@@ -144,7 +147,8 @@ async def res(ctx, *, pokemon):
             print(table.dumps())
             await ctx.channel.send(f"found resistances for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
     elif len(sug) > 1:
-        await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the Pokemon you want.")
+        await ctx.channel.send(
+            "Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the Pokemon you want.")
     else:
         await ctx.channel.send("Sorry, I couldn't find that.")
 
@@ -167,9 +171,11 @@ async def ability(ctx, *, p_ability):
         print(abil)
         await ctx.channel.send(f'**__{p_ability}__**:\n{abil}')
     elif len(sug) > 1:
-        await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the ability you want")
+        await ctx.channel.send(
+            "Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the ability you want")
     else:
         await ctx.channel.send("Sorry, I couldn't find that.")
+
 
 @client.command()
 async def move(ctx, *, p_move):
@@ -191,15 +197,16 @@ async def move(ctx, *, p_move):
         print(mov)
         await ctx.channel.send(f'**__{p_move}__**:\n{mov}')
     elif len(sug) > 1:
-        await ctx.channel.send("Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the ability you want")
+        await ctx.channel.send(
+            "Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the ability you want")
     else:
         await ctx.channel.send("Sorry, I couldn't find that.")
+
 
 # poll commands
 
 @client.command(name='createpoll', aliases=['mkpoll'])
 async def create_poll(ctx, question, polltime: typing.Optional[int] = 10, *options):
-
     """
     Create a poll, format as below:
     !mkpoll "This is the question?" 5 option1 "option two" option3
@@ -212,9 +219,9 @@ async def create_poll(ctx, question, polltime: typing.Optional[int] = 10, *optio
         await ctx.channel.send('You can only have a max of 10 options.')
 
     embed = discord.Embed(title="Poll",
-                  description=question,
-                  colour=ctx.author.colour,
-                  timestamp=datetime.datetime.utcnow())
+                          description=question,
+                          colour=ctx.author.colour,
+                          timestamp=datetime.datetime.utcnow())
 
     fields = [('Options', '\n'.join([f'{numbers[idx]} {option}' for idx, option in enumerate(options)]), False),
               ('Instructions:', 'React to cast a vote!', False)]
@@ -228,7 +235,7 @@ async def create_poll(ctx, question, polltime: typing.Optional[int] = 10, *optio
     for emoji in numbers[:len(options)]:
         await message.add_reaction(emoji)
 
-    await asyncio.sleep(polltime*60)
+    await asyncio.sleep(polltime * 60)
 
     allrxn = []
 
@@ -250,5 +257,29 @@ async def create_poll(ctx, question, polltime: typing.Optional[int] = 10, *optio
     await ctx.channel.send(f'Poll: "{question}" finished. \n\t -{winner} won!')
 
 
-client.run(token)
+@client.command()
+async def wordsearch(ctx, size, num_words):
+    """
+    Replies with a randomly generated wordsearch and list of words
+    `!wordsearch 10 15` creates a wordsearch 10x10 with 15 words inside.
+    """
+    if type(size) != int or type(num_words) != int:
+        msg = 'size and num_words parameters must be numbers'
+        ctx.channel.send(msg)
+    elif size > 25:
+        msg = "Unfortunately that's too big for me to send as a message."
+        ctx.channel.send(msg)
+    else:
+        try:
+            ws.populate()
+            body = ws.prettyprint()
+            wordlist = ws.listw()
 
+            ctx.channel.send(f"\'\'\'\n{body}\n\'\'\'")
+            ctx.channel.send(wordlist)
+
+        except StopIteration as e:
+            ctx.channel.send(e)
+
+
+client.run(token)
