@@ -283,7 +283,7 @@ async def wordsearch(ctx, size, num_words):
             body = ws.prettyprint()
             wordlist = ws.listw()
 
-            await ctx.channel.send(f"\'\'\'\n{body}\n\'\'\'")
+            await ctx.channel.send(f"```\n{body}\n```")
             await ctx.channel.send(wordlist)
 
         except StopIteration as e:
