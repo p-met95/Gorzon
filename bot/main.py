@@ -3,6 +3,7 @@ from discord.ext import commands
 import os
 from wordsearch import *
 from pokedex import *
+from fortune_cookie_generator import *
 import datetime
 import asyncio
 import typing
@@ -31,7 +32,7 @@ numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣",
 
 @client.event
 async def on_ready():
-    await client.change_presence(status=discord.Status.idle, activity=discord.Game("EATING HUMAN BABIES"))
+    await client.change_presence(status=discord.Status.idle, activity=discord.Game("I AM RISEN, BOW BEFORE ME"))
     print("I am online")
     # print('starting reminders')
     # what_ya_reading.start()
@@ -289,5 +290,34 @@ async def wordsearch(ctx, size, num_words):
         except StopIteration as e:
             await ctx.channel.send(e)
 
+
+# fortune cookie commands
+
+# this one generates a fortune based on low training time- 
+#   ie bad fortunes that don't make grammatical sense
+@client.command(name='fortune', alias=['🥠', 'cookie'])
+async def fortune(ctx):
+    """
+    Generates a (poorly rendered) imitation of a fortune cookie fortune
+    `!fortune` or `!🥠` or `!cookie` all call this command
+    """
+    
+    frtn = bad_fortune_gen()
+
+    await ctx.channel.send(f'*crack*\n\t"{frtn}"\nhmm...')
+
+
+# this one generates a fortune based on higher training time- 
+#   these fortunes tend to be pretty good/make sense
+@client.command(name='goodfortune', alias=['good🥠'])
+async def fortune(ctx):
+    """
+    Generates a (poorly rendered) imitation of a fortune cookie fortune
+    `!goodfortune` or `!good🥠` call this command
+    """
+    
+    frtn = good_fortune_gen()
+
+    await ctx.channel.send(f'*crack*\n\t"{frtn}"\nhmm...')
 
 client.run(token)
