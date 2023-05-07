@@ -1,4 +1,5 @@
 import os
+print('placeholder to find location')
 print(os.getcwd())
 
 import discord
