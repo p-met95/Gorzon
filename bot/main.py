@@ -1,6 +1,7 @@
 import os
 print('placeholder to find location')
 print(os.getcwd())
+print(os.listdir())
 
 import discord
 from discord.ext import commands
