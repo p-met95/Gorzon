@@ -1,6 +1,8 @@
+import os
+print(os.getcwd())
+
 import discord
 from discord.ext import commands
-import os
 from wordsearch import *
 from fortune_cookie_generator import *
 import datetime
@@ -20,6 +22,8 @@ token = os.getenv("DISCORD_BOT_TOKEN")
 numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣",
            "6⃣", "7⃣", "8⃣", "9⃣", "🔟")
 
+
+print(os.getcwd())
 
 @client.event
 async def on_ready():
