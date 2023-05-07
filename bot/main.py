@@ -2,29 +2,20 @@ import discord
 from discord.ext import commands
 import os
 from wordsearch import *
-from pokedex import *
 from fortune_cookie_generator import *
 import datetime
 import asyncio
 import typing
+from english_words import get_english_words_set
 
-client = commands.Bot(command_prefix="!")
+words = get_english_words_set(['web2'], alpha=True, lower=True)
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+client = commands.Bot(command_prefix="!",intents=intents)
 token = os.getenv("DISCORD_BOT_TOKEN")
 
-poke_client = pp.V2Client()
-
-special_cases = {
-    "Type: Null": "type-null",
-    "Mime Jr.": "mime-jr",
-    "Mr. Rime": "mr-rime",
-    "Mr. Mime": "mr-mime",
-    "Tapu Koko": "tapu-koko",
-    "Tapu Lele": "tapu-lele",
-    "Tapu Bulu": "tapu-bulu",
-    "Tapu Fini": "tapu-fini",
-    "Farfetch'd": "Farfetchd",
-    "Sirfetch'd": "Sirfetchd",
-    "Porygon-Z": "Porygon-z"}
 
 numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣",
            "6⃣", "7⃣", "8⃣", "9⃣", "🔟")
@@ -76,131 +67,9 @@ async def on_ready():
 @client.command()
 async def sfws(ctx):
     """Posts 3 Safe For Work Sasuke™ for when you need to move that shit off screen."""
-    await ctx.channel.send(file=discord.File('/app/bot/Images/sfwsasuke.png'))
-    await ctx.channel.send(file=discord.File('/app/bot/Images/sfwsasuke.png'))
-    await ctx.channel.send(file=discord.File('/app/bot/Images/sfwsasuke.png'))
-
-
-@client.command()
-async def weak(ctx, *, pokemon):
-    """Replies with the weaknesses of the pokemon you ask for. Does not account for ability effects: e.g. sap sipper (attempts to spell check)"""
-    sug = suggester(pokemon, 'all_pkmn')
-    if sug == True:
-        if pokemon in special_cases.keys():
-            altn = special_cases[pokemon]
-            t1, t2 = g_types(altn, poke_client)
-            t_name, table = weak_table(t1, t2)
-            print(table.dumps())
-            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
-        else:
-            t1, t2 = g_types(pokemon, poke_client)
-            t_name, table = weak_table(t1, t2)
-            print(table.dumps())
-            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
-    elif len(sug) == 1:
-        pokemon = sug[0]
-        if pokemon in special_cases.keys():
-            altn = special_cases[pokemon]
-            t1, t2 = g_types(altn, poke_client)
-            t_name, table = weak_table(t1, t2)
-            print(table.dumps())
-            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
-        else:
-            t1, t2 = g_types(pokemon, poke_client)
-            t_name, table = weak_table(t1, t2)
-            print(table.dumps())
-            await ctx.channel.send(f"found weaknesses for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
-    elif len(sug) > 1:
-        await ctx.channel.send(
-            "Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the Pokemon you want.")
-    else:
-        await ctx.channel.send("Sorry, I couldn't find that.")
-
-
-@client.command()
-async def res(ctx, *, pokemon):
-    """Replies with the resistances of the pokemon you ask for. Does not account for ability effects: e.g. sap sipper (attempts to spell check)"""
-    sug = suggester(pokemon, 'all_pkmn')
-    if sug == True:
-        if pokemon in special_cases.keys():
-            altn = special_cases[pokemon]
-            t1, t2 = g_types(altn, poke_client)
-            t_name, table = res_table(t1, t2)
-            print(table.dumps())
-            await ctx.channel.send(f"found resistances for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
-        else:
-            t1, t2 = g_types(pokemon, poke_client)
-            t_name, table = res_table(t1, t2)
-            print(table.dumps())
-            await ctx.channel.send(f"found resistances for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
-    elif len(sug) == 1:
-        pokemon = sug[0]
-        if pokemon in special_cases.keys():
-            altn = special_cases[pokemon]
-            t1, t2 = g_types(altn, poke_client)
-            t_name, table = res_table(t1, t2)
-            print(table.dumps())
-            await ctx.channel.send(f"found resistances for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
-        else:
-            t1, t2 = g_types(pokemon, poke_client)
-            t_name, table = res_table(t1, t2)
-            print(table.dumps())
-            await ctx.channel.send(f"found resistances for **__{pokemon}__**:\n```{t_name}\n{table.dumps()}```")
-    elif len(sug) > 1:
-        await ctx.channel.send(
-            "Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the Pokemon you want.")
-    else:
-        await ctx.channel.send("Sorry, I couldn't find that.")
-
-
-@client.command()
-async def ability(ctx, *, p_ability):
-    """Replies with the ability effect you ask for (attempts to spell check)"""
-    sug = suggester(p_ability, 'abilities')
-    if sug == True:
-        alt = p_ability.lower()
-        alt = alt.replace(' ', '-')
-        abil = g_ability(alt, poke_client)
-        print(abil)
-        await ctx.channel.send(f'**__{p_ability}__**:\n{abil}')
-    elif len(sug) == 1:
-        p_ability = sug[0]
-        alt = p_ability.lower()
-        alt = alt.replace(' ', '-')
-        abil = g_ability(alt, poke_client)
-        print(abil)
-        await ctx.channel.send(f'**__{p_ability}__**:\n{abil}')
-    elif len(sug) > 1:
-        await ctx.channel.send(
-            "Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the ability you want")
-    else:
-        await ctx.channel.send("Sorry, I couldn't find that.")
-
-
-@client.command()
-async def move(ctx, *, p_move):
-    """Replies with the move power, accuracy, type, and effect you ask for (attempts to spell check)"""
-    sug = suggester(p_move, 'moves')
-    if sug == True:
-        alt = p_move.replace('-', ' ')
-        alt = alt.lower()
-        alt = alt.replace(' ', '-')
-        mov = g_move(alt, poke_client)
-        print(mov)
-        await ctx.channel.send(f'**__{p_move}__**:\n{mov}')
-    elif len(sug) == 1:
-        p_move = sug[0]
-        alt = p_move.replace('-', ' ')
-        alt = alt.lower()
-        alt = alt.replace(' ', '-')
-        mov = g_move(alt, poke_client)
-        print(mov)
-        await ctx.channel.send(f'**__{p_move}__**:\n{mov}')
-    elif len(sug) > 1:
-        await ctx.channel.send(
-            "Did you mean: " + ", ".join(sug[:-1]) + f", or {sug[-1]}?\nPlease ask again with the ability you want")
-    else:
-        await ctx.channel.send("Sorry, I couldn't find that.")
+    await ctx.channel.send(file=discord.File('/bot/Images/sfwsasuke.png'))
+    await ctx.channel.send(file=discord.File('/bot/Images/sfwsasuke.png'))
+    await ctx.channel.send(file=discord.File('/bot/Images/sfwsasuke.png'))
 
 
 # poll commands
@@ -279,7 +148,7 @@ async def wordsearch(ctx, size, num_words):
     else:
 
         try:
-            ws = Grid(size, num_words)
+            ws = Grid(size, num_words, words)
             ws.populate()
             body = ws.prettyprint()
             wordlist = ws.listw()
@@ -295,7 +164,7 @@ async def wordsearch(ctx, size, num_words):
 
 # this one generates a fortune based on low training time- 
 #   ie bad fortunes that don't make grammatical sense
-@client.command(name='fortune', alias=['🥠', 'cookie'])
+@client.command(name='fortune', alias=['🥠', 'cookie', ':fortunecookie:'])
 async def fortune(ctx):
     """
     Generates a (poorly rendered) imitation of a fortune cookie fortune
@@ -309,11 +178,11 @@ async def fortune(ctx):
 
 # this one generates a fortune based on higher training time- 
 #   these fortunes tend to be pretty good/make sense
-@client.command(name='goodfortune', alias=['good🥠'])
+@client.command(name='goodfortune', alias=['good🥠', 'goodcookie', 'good:fortunecookie:'])
 async def fortune(ctx):
     """
     Generates a (poorly rendered) imitation of a fortune cookie fortune
-    `!goodfortune` or `!good🥠` call this command
+    `!goodfortune` or `goodcookie` or `!good🥠` call this command
     """
     
     frtn = good_fortune_gen()

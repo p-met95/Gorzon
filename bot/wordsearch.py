@@ -1,5 +1,4 @@
 import numpy as np
-from english_words import english_words_alpha_set
 import string
 import random
 import copy
@@ -29,8 +28,8 @@ def wordcheck(word, word_coords, placed_words):
 
 class Wordgen:
 
-    def __init__(self, maxlen):
-        valid = [w for w in english_words_alpha_set if len(w) <= maxlen]
+    def __init__(self, words, maxlen):
+        valid = [w for w in words if len(w) <= maxlen]
 
         self.word = random.choice(valid).upper()
         self.length = len(self.word)
@@ -38,7 +37,7 @@ class Wordgen:
 
 class Grid:
 
-    def __init__(self, dim, numw):
+    def __init__(self, dim, numw, wds):
 
         self.allcoords = {}
         self.dim = dim
@@ -47,7 +46,7 @@ class Grid:
 
         self.grid = np.reshape(np.array(randlet), (-1, dim))
         self.numw = numw
-        self.words = [Wordgen(dim) for i in range(numw)]
+        self.words = [Wordgen(wds, dim) for i in range(numw)]
 
     def listw(self):
         return '\n'.join([i.word for i in self.words])

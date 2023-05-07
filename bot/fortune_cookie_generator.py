@@ -36,9 +36,9 @@ def good_fortune_gen():
     
     model_output = gmodel.generate(generated, 
                                   do_sample=True,   
-                                  top_k=1000, 
+                                  top_k=100, 
                                   max_length = 40,
-                                  top_p=0.99, 
+                                  top_p=0.95, 
                                   num_return_sequences=1
                                   )
     
@@ -66,12 +66,3 @@ def bad_fortune_gen():
     fortune = str(btokenizer.decode(model_output[0], skip_special_tokens=True))
     return fortune
 
-#%%
-
-fort = good_fortune_gen()
-print('good fortune')
-print(fort)
-
-fort = bad_fortune_gen()
-print('bad fortune')
-print(fort)
