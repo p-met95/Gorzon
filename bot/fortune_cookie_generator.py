@@ -11,8 +11,8 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import torch
 
 
-gmodeldir = 'model_save5'
-bmodeldir = 'model_save1'
+gmodeldir = '/workspace/bot/model_save5'
+bmodeldir = '/workspace/bot/model_save1'
 
 device = torch.device("cpu")
 

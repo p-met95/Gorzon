@@ -73,9 +73,9 @@ async def on_ready():
 @client.command()
 async def sfws(ctx):
     """Posts 3 Safe For Work Sasuke™ for when you need to move that shit off screen."""
-    await ctx.channel.send(file=discord.File('/bot/Images/sfwsasuke.png'))
-    await ctx.channel.send(file=discord.File('/bot/Images/sfwsasuke.png'))
-    await ctx.channel.send(file=discord.File('/bot/Images/sfwsasuke.png'))
+    await ctx.channel.send(file=discord.File('/workspace/bot/Images/sfwsasuke.png'))
+    await ctx.channel.send(file=discord.File('/workspace/bot/Images/sfwsasuke.png'))
+    await ctx.channel.send(file=discord.File('/workspace/bot/Images/sfwsasuke.png'))
 
 
 # poll commands
